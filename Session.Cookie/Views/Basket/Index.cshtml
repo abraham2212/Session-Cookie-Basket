@@ -1,0 +1,63 @@
+﻿@model List<BasketVM>
+@{
+    ViewData["Title"] = "Index";
+
+}
+    
+<div class="container my-5">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Image</th>
+                <th scope="col">Name</th>
+                <th scope="col">Price</th>
+                <th scope="col">Count</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="img" style="width:100px; height:100px;">
+                            <img style="width:100%; height:100%;" src="~/img/@item.Product.Images.FirstOrDefault(p=>p.IsMain)?.Image" />
+                        </div>
+                    </td>
+                    <td>
+                        @item.Product.Name
+                    </td>
+                    <td>
+                        $@item.Product.Price
+                    </td>
+                    <td>
+                        @item.Count
+                    </td>
+                    <td>
+                        @{
+                            decimal total = (item.Count * item.Product.Price);
+                        }
+                        $@total
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="footer d-flex align-items-center justify-content-between">
+        <a asp-controller="Home" asp-action="Index"><button>Continue Shopping</button> </a>
+        <div class="footer-right">
+            <span class="total-price">
+                @{
+                    decimal grandTotal = 0;
+                    @foreach (var item in Model)
+                    {
+                        grandTotal += (item.Count * item.Product.Price);
+                    }
+                }
+               $@grandTotal
+            </span>
+            <a href="checkout.html"><button class="checkout">Proceed To Checkout</button></a>
+        </div>
+    </div>
+</div>
